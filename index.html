@@ -81,12 +81,6 @@
 </div>
 
 <script>
-const webhookUrl = "https://hook.eu2.make.com/w1bofn7hiamcwh44h5wu3d7c0s5pn786";
-
-// URLパラメータ取得
-const urlParams = new URLSearchParams(window.location.search);
-const userId = urlParams.get('userId');
-
 const submitBtn = document.getElementById("submitBtn");
 const messageInput = document.getElementById("message");
 const statusMessage = document.getElementById("statusMessage");
@@ -96,44 +90,44 @@ const completionPage = document.getElementById("completion-page");
 submitBtn.addEventListener("click", async () => {
   const messageText = messageInput.value.trim();
 
-  if (!userId) {
-    alert("ユーザーIDがURLから取得できません。");
-    return;
-  }
   if (!messageText) {
     alert("問い合わせ内容を入力してください。");
     return;
   }
 
-  const data = {
-    userId: userId,
-    inquiry: messageText
-  };
-
   // 連打防止
   submitBtn.disabled = true;
   submitBtn.textContent = "送信中...";
 
+  // URLパラメータからuserIdを取得
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("userId");
+
+  const data = {
+    userId: userId,
+    message: messageText 
+  };
+
+   // 1. データ保存 → 2. 問い合わせ内容を顧客とオーナーの2人に送る関数と問い合わせ内容を記録する関数の2つを使っている→ 3. 完了画面
+
+  // ======= ここで即完了画面表示 =======
+  formPage.style.display = "none";
+  completionPage.style.height = window.innerHeight + "px";
+  completionPage.style.display = "flex";
+
+  // ======= GAS へ非同期送信 =======
   try {
-    await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-
-    // 成功 → 完了画面表示
-    formPage.style.display = "none";
-    completionPage.style.height = window.innerHeight + "px";
-    completionPage.style.display = "flex";
+  await fetch("https://reservations.thinklayer.jp/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
   } catch(err) {
-    statusMessage.textContent = "送信に失敗しました：" + err.message;
-    statusMessage.style.color = "red";
-
-    // 失敗時にボタンを元に戻す
-    submitBtn.disabled = false;
-    submitBtn.textContent = "送信";
+    console.error("予期せぬエラー:", err);
   }
+
 });
+
 </script>
 
 </body>
