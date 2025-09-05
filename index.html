@@ -87,7 +87,7 @@ const statusMessage = document.getElementById("statusMessage");
 const formPage = document.getElementById("form-page");
 const completionPage = document.getElementById("completion-page");
 
-submitBtn.addEventListener("click", () => {
+submitBtn.addEventListener("click", async () => {
   const messageText = messageInput.value.trim();
 
   if (!messageText) {
