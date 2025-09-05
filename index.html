@@ -100,7 +100,6 @@ submitBtn.addEventListener("click", async () => {
   submitBtn.textContent = "送信中...";
 
   // URLパラメータからuserIdを取得
-  window.onload = function() {
   const params = new URLSearchParams(window.location.search);
   const userId = params.get("userId");
 
@@ -125,7 +124,6 @@ submitBtn.addEventListener("click", async () => {
   });
   } catch(err) {
     console.error("予期せぬエラー:", err);
-  }
   }
 });
 
