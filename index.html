@@ -102,8 +102,10 @@ submitBtn.addEventListener("click", async () => {
   // URLパラメータからuserIdを取得
   const params = new URLSearchParams(window.location.search);
   const userId = params.get("userId");
+  const webappurl = params.get("webappurl");
 
   const data = {
+    webappurl: webappurl,
     userId: userId,
     otoiawase: true,
     message: messageText 
