@@ -1,0 +1,121 @@
+/* --- :root で初期値を定義（拡張版） --- */
+:root {
+  /* --- 文字色 --- */
+  --color-body: #ffffff;          /* 読みやすい落ち着いたグレー */
+  --color-input-button: #111111;  /* 入力欄・ボタン文字 */
+  --color-label: #6b5b4d;         /* やわらかいブラウン */
+  --color-button-text: #111111;   /* ボタン文字は白 */
+  --color-page-title: #d4af37;    /* タイトルも落ち着き */
+
+  /* --- 背景 --- */
+  --bg-body: #111111;             /* 白ベースで清潔感 */
+
+  /* --- フォーム背景 --- */
+  --form-bg: #ffffffD9;           /* 白に固定、85%不透明 */
+
+  /* --- 入力欄背景 --- */
+  --input-bg: #ffffff;            /* 乳白色 */
+
+  /* --- ボタン背景 --- */
+  --bg-button: #f8e5a1;           /* 柔らかいピンク */
+  --bg-button-hover: #f1d77e;     /* ホバー時に少し濃く */
+
+  /* --- 枠線 --- */
+  --border-input-focus: #f1d77e;  /* フォーカス時に淡いピンク */
+}
+
+/* --- 全体 --- */
+body {
+  font-family: 'Arial', sans-serif;
+  background: var(--bg-body);
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+  color: var(--color-body);
+}
+
+/* 問い合わせフォーム部分だけ背景を設定 */
+.form-container {
+  background: var(--form-bg);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+
+/* タイトル */
+h1 {
+  text-align: center;
+  color: var(--color-page-title);
+}
+
+/* ラベル */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: var(--color-label);
+}
+
+/* テキストエリア */
+textarea {
+  width: 100%;
+  height: 120px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+  background: var(--input-bg);
+  color: var(--color-input-button);
+}
+
+/* ボタン */
+button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px 20px;
+  background-color: var(--bg-button);
+  color: var(--color-button-text);
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* フォーカス時 */
+textarea:focus {
+  border-color: var(--border-input-focus);       /* ピンクに変更 */
+  box-shadow: 0 0 8px rgba(246,199,214,0.5);   /* 薄いピンクの光 */
+  outline: none;                                /* ブラウザデフォルト枠を消す */
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--bg-button-hover);
+}
+
+/* メッセージ */
+.message {
+  margin-top: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* 完了ページ */
+#completion-page {
+  display: none;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 24px;
+  color: green;
+  padding: 20px;
+  box-sizing: border-box;
+}
