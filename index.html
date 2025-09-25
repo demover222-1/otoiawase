@@ -26,8 +26,9 @@
 </div>
 
 <script>
+const params = new URLSearchParams(window.location.search);
+	
 window.onload = function() {
-  const params = new URLSearchParams(window.location.search);
   const root = document.documentElement;
 
   // --- CSSファイルを読み込む ---
