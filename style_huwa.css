@@ -1,0 +1,195 @@
+/* お問い合わせ */
+
+:root {
+  /* --- 文字色 --- */
+  --color-page-title: #ffa1f8;    /* タイトルと完了ページ */
+  --color-label: #6b5b4d;         /* 「お問い合わせ内容：」 */
+  --color-input-placeholder: #a8a8a8D9; /* 入力欄内の例 */
+  --color-input-button: #4a4a4a;  /* 入力後 */
+
+  /* --- 背景 --- */
+  --form-bg: #ffffffD9;           /* フォーム */
+  --input-bg: #faf7f3;            /* 入力欄 */
+
+  /* --- ボタン背景 --- */
+  --color-button-text: #ffffff;   /* 文字色 */
+  --bg-button: #f8d9e1;           /* 背景色 */
+
+  /* --- 枠線 --- */
+  --border-input: #f8d9e1;        /* フォーカス前 */
+  --border-input-focus: #f6c7d6;  /* フォーカス後 */
+
+}
+
+
+
+
+/* --- 全体 --- */
+body {
+  font-family: 'Arial', sans-serif;
+  padding: 0;
+  max-width: 600px;
+  margin: auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* 背景はJSで設定するのでここでは初期値のみ */
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-input-placeholder);
+}
+
+
+/* 問い合わせフォーム部分だけ背景を設定 */
+.form-container {
+  background: var(--form-bg);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+
+/* タイトル */
+h1 {
+  text-align: center;
+  color: var(--color-page-title);
+
+  text-shadow:
+    -2px -2px 3px #ffffffd9,
+     2px -2px 3px #ffffffd9,
+    -2px  2px 3px #ffffffd9,
+     2px  2px 3px #ffffffd9;
+}
+
+/* ラベル */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: var(--color-label);
+}
+
+/* テキストエリア */
+textarea {
+  width: 100%;
+  height: 120px;
+  padding: 10px;
+  font-size: 16px;
+
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
+  resize: vertical;
+  background: var(--input-bg);
+  color: var(--color-input-button);
+}
+
+/* ボタン */
+button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px 20px;
+  background-color: var(--bg-button);
+  color: var(--color-button-text);
+  border: 1px solid var(--border-input);
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* フォーカス時 */
+textarea:focus {
+  border-color: var(--border-input-focus);
+  box-shadow: 0 0 8px rgba(246,199,214,0.5);   /* 薄いピンクの光 */
+  outline: none;                                /* ブラウザデフォルト枠を消す */
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--bg-button);
+}
+
+/* メッセージ */
+.message {
+  margin-top: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* 完了ページ */
+#completion-page {
+  display: none;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 24px;
+  padding: 20px;
+  box-sizing: border-box;
+
+  text-shadow:
+    -2px -2px 3px #ffffffd9,
+     2px -2px 3px #ffffffd9,
+    -2px  2px 3px #ffffffd9,
+     2px  2px 3px #ffffffd9;
+}
+
+.completion-box {
+  max-width: 450px;
+  width: 90%;
+  padding: 25px;
+  border-radius: 20px;
+  background: var(--form-bg);     /* ← form と同じ半透明背景 */
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--color-page-title);
+  font-size: 1.1em;
+  text-shadow:
+    -2px -2px 3px #ffffffd9,
+     2px -2px 3px #ffffffd9,
+    -2px  2px 3px #ffffffd9,
+     2px  2px 3px #ffffffd9;
+}
+
+
+
+/* --- スマホ対応レスポンシブ --- */
+@media (max-width: 480px) {
+  form {
+    width: 90%;              /* 画面幅に合わせる */
+    padding: 20px;           /* 少し狭めのパディング */
+    border-radius: 16px;     
+  }
+
+  .page-title {
+    font-size: 1.6em;        /* 小さい画面でも文字が大きすぎない */
+  }
+
+  input, button {
+    font-size: 0.95rem;      /* フォントを少し小さく */
+    padding: 10px;           /* スマホ用に調整 */
+    max-width: 100%;         /* はみ出さないように */
+  }
+
+  body, #completion-page {
+    min-height: 100vh;       /* アドレスバーで高さが変動してもOK */
+  }
+
+  #completion-page {
+    padding: 15px;
+  }
+}

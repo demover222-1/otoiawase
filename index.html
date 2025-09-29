@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>問い合わせフォーム</title>
+</head>
+
+<body>
+<div id="form-page">
+
+    <h1>お問い合わせ</h1>
+  <div class="form-container">
+    <label for="message">問い合わせ内容：</label>
+    <textarea id="message" placeholder="こちらに内容をご入力ください"></textarea>
+
+    <button id="submitBtn">送信</button>
+    <div class="message" id="statusMessage"></div>
+  </div>
+</div>
+
+
+<div id="completion-page">
+ <div class="completion-box">
+  送信が完了しました！
+ </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+  
+window.onload = function() {
+  const root = document.documentElement;
+
+  // --- CSSファイルを読み込む ---
+  const cssFile = params.get("css") || "style.css";
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = cssFile;
+  document.head.appendChild(link);
+
+  // --- CSS変数マップ ---
+  const colorMap = {
+					pageTitleColor: "--color-page-title",
+					labelColor: "--color-label",
+					colorInputPlaceholder: "--color-input-placeholder",
+					inputButtonColor: "--color-input-button",
+					formBg: "--form-bg",
+					inputBg: "--input-bg",
+					buttonTextColor: "--color-button-text",
+					buttonBg: "--bg-button",
+					borderInput: "--border-input",
+					inputFocusBorder: "--border-input-focus"
+  };
+
+  // --- URLパラメータで上書き ---
+  for (const key in colorMap) {
+    const value = params.get(key);
+    if (value) {
+      root.style.setProperty(colorMap[key], value);
+    }
+  }
+
+//～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～
+  //　--- 背景画像設定 --- //
+  const bgImageParam = params.get("bgimage"); // URLパラメータ名を「bgimage」に設定
+  const body = document.body;
+
+  if(bgImageParam && bgImageParam.trim() !== ""){
+    // URLパラメータがある場合はそのURLを使用
+	   body.style.background = `url("${bgImageParam}") no-repeat center center fixed`;
+	} else {
+	  // bgimageが無い場合
+	  if (cssFile === "style_huwa.css") {
+		// huwa の場合
+		body.style.background = 'url("background-huwa.jpg") no-repeat center center fixed';
+	  } else if (cssFile === "style_luxury.css") {
+		// luxury の場合
+		body.style.background = 'url("background-luxury.jpg") no-repeat center center fixed';
+	  } else {
+		// その他
+		body.style.background = 'url("background.jpg") no-repeat center center fixed';
+	  }
+	}
+body.style.backgroundSize = "cover";
+//～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～
+
+};
+
+
+// ---フォーム送信処理 ---
+const submitBtn = document.getElementById("submitBtn");
+const messageInput = document.getElementById("message");
+const statusMessage = document.getElementById("statusMessage");
+const formPage = document.getElementById("form-page");
+const completionPage = document.getElementById("completion-page");
+
+submitBtn.addEventListener("click", async () => {
+  const messageText = messageInput.value.trim();
+
+  if (!messageText) {
+    alert("問い合わせ内容を入力してください。");
+    return;
+  }
+
+  // 連打防止
+  submitBtn.disabled = true;
+  submitBtn.textContent = "送信中...";
+
+  // URLパラメータからuserIdを取得
+  const userId = params.get("userId");
+  const webappurl = params.get("webappurl");
+
+  const data = {
+    webappurl: webappurl,
+    userId: userId,
+    otoiawase: true,
+    message: messageText 
+  };
+
+   // 1. データ保存 → 2. 問い合わせ内容を顧客とオーナーの2人に送る関数と問い合わせ内容を記録する関数の2つを使っている→ 3. 完了画面
+
+  // ======= ここで即完了画面表示 =======
+  formPage.style.display = "none";
+  completionPage.style.height = window.innerHeight + "px";
+  completionPage.style.display = "flex";
+
+  // ======= GAS へ非同期送信 =======
+  try {
+  await fetch("https://reservations.thinklayer.jp/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+  } catch(err) {
+    console.error("予期せぬエラー:", err);
+  }
+});
+
+</script>
+
+</body>
+</html>
