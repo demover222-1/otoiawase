@@ -111,11 +111,13 @@ submitBtn.addEventListener("click", async () => {
   // URLパラメータからuserIdを取得
   const userId = params.get("userId");
   const webappurl = params.get("webappurl");
-
+  const sheetId = params.get("sheetId");
+	
   const data = {
     webappurl: webappurl,
     userId: userId,
     otoiawase: true,
+    sheetId: sheetId,
     message: messageText 
   };
 
